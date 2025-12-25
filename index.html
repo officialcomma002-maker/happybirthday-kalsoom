@@ -1,0 +1,153 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b0616" />
+  <title>Happy Birthday Kalsoom</title>
+
+  <!-- Optional: Poppins via Google Fonts (safe to remove; will fall back to system fonts) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <!-- Fixed background canvas (stars + fireworks). Never intercepts clicks. -->
+  <canvas id="fxCanvas" aria-hidden="true"></canvas>
+
+  <!-- Gift animation layer placeholder (behind content, above background).
+       JS includes a built-in CSS/canvas-free "floating gifts" fallback.
+       When you provide a link later, you can hook it in via JS. -->
+  <div id="giftLayer" aria-hidden="true"></div>
+
+  <main id="app" class="app" aria-live="polite">
+    <!-- Scene 0 -->
+    <section class="scene active" data-scene="0" aria-label="Start">
+      <div class="content">
+        <h1 class="title">Happy Birthday Kalsoom <span class="inline-emoji" aria-hidden="true">🎉</span></h1>
+        <p class="subtitle">Are you ready for your birthday surprise?</p>
+
+        <button class="btn primary" id="startBtn" type="button">
+          Yes <span class="inline-emoji" aria-hidden="true">🎁</span>
+        </button>
+
+        <p class="microhint">Tip: enable sound for the full experience.</p>
+      </div>
+    </section>
+
+    <!-- Scene 1 -->
+    <section class="scene" data-scene="1" aria-label="Fireworks and memories">
+      <div class="content">
+        <h2 class="headline">Tonight is yours</h2>
+
+        <div class="memory-stack" aria-label="Memories">
+          <p class="memory" data-step="1">Another year older <span aria-hidden="true">✨</span></p>
+          <p class="memory" data-step="2">Another year more amazing <span aria-hidden="true">💫</span></p>
+          <p class="memory" data-step="3">And still the same beautiful soul <span aria-hidden="true">🤍</span></p>
+        </div>
+
+        <button class="btn primary" id="openSurpriseBtn" type="button">
+          Open Your Surprise <span class="inline-emoji" aria-hidden="true">🎂</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Scene 2 -->
+    <section class="scene" data-scene="2" aria-label="Cake and candle">
+      <div class="content">
+        <h2 class="headline">Make a wish</h2>
+        <p class="subtitle dim">Blow out the candle to continue.</p>
+
+        <div class="cake-stage" role="group" aria-label="Birthday cake interaction">
+          <div class="cake" aria-hidden="true">
+            <div class="cake-top"></div>
+            <div class="cake-body"></div>
+            <div class="cake-shadow"></div>
+
+            <div class="candle" id="candle" aria-hidden="true">
+              <div class="wick"></div>
+              <div class="flame" id="flame" aria-hidden="true"></div>
+              <div class="candle-body"></div>
+            </div>
+          </div>
+
+          <div class="hint-card" id="blowHint" role="status">
+            <div class="hint-title">How to blow it out</div>
+            <ul class="hint-list">
+              <li><span class="dot"></span>On mobile: allow microphone & blow gently</li>
+              <li><span class="dot"></span>Fallback: double-tap / click the flame</li>
+            </ul>
+          </div>
+        </div>
+
+        <button class="btn ghost" id="continueBtn" type="button" disabled>
+          Continue <span aria-hidden="true">→</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Scene 3 -->
+    <section class="scene" data-scene="3" aria-label="Friendship message">
+      <div class="content">
+        <h2 class="headline">For you, Kalsoom</h2>
+
+        <div class="card">
+          <p class="body-text">
+  Happy Birthday, Kalsoom.<br>
+  Your heart makes the world softer, and your presence makes it brighter.<br>
+  May this year bring you calm, confidence, and beautiful new beginnings.
+</p>
+        </div>
+
+        <button class="btn primary" id="nextBtn" type="button">
+          Next <span aria-hidden="true">💌</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Scene 4 -->
+    <section class="scene" data-scene="4" aria-label="Envelope and letter">
+      <div class="content">
+        <h2 class="headline">One last thing</h2>
+
+        <div class="envelope-stage">
+          <button class="envelope" id="envelope" type="button" aria-label="Open the letter">
+            <span class="env-back" aria-hidden="true"></span>
+            <span class="env-front" aria-hidden="true"></span>
+            <span class="env-flap" aria-hidden="true"></span>
+            <span class="env-seal" aria-hidden="true"></span>
+
+            <span class="letter" id="letter" aria-hidden="true">
+              <span class="letter-inner">
+                <span class="letter-title">Dear Kalsoom,</span>
+                <span class="letter-body">
+  <span class="line">Happy Birthday! I hope today wraps you in the joy you always give to others.</span>
+  <span class="line">You deserve a year that feels gentle, exciting, and full of answered prayers.</span>
+  <span class="line">I’m so grateful for you—for your loyalty, your warmth, and the way you show up.</span>
+  <span class="line">Thank you for being the friend who listens, understands, and still makes room for laughter.</span>
+  <span class="line">May this new year bring you peace, confidence, and opportunities that match your talent.</span>
+  <span class="line">Keep dreaming big—your light is real, and it matters.</span>
+</span>
+                <span class="letter-sign">Sumaira <span aria-hidden="true">🌸</span></span>
+              </span>
+            </span>
+          </button>
+
+          <p class="microhint dim">Tap the envelope to open it.</p>
+        </div>
+
+        <button class="btn ghost" id="restartBtn" type="button">
+          Replay <span aria-hidden="true">↺</span>
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Background music -->
+  <audio id="bgm" src="./moonlight.mp3" preload="auto" loop></audio>
+
+  <script src="./script.js"></script>
+</body>
+</html>
